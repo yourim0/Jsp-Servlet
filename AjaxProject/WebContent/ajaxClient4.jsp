@@ -16,7 +16,7 @@ $(function(){
 				data:$("#theForm").serialize(), //{name:name,ph_number:ph_number}
 				dataType:'json',
 				success:function(res){
-					alert("성공");
+					alert(res.name);
 				},
 				error:function(err){
 					alert("실패 원인" + err);
