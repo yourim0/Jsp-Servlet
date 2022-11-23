@@ -9,4 +9,13 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  
+  <!--톰캣서버 구동시 필요한 정보를 초기화 하는 역할 -->
+  <!--String str="자바 입니다. " 와 같다.-->
+  
+  <context-param>
+  	<param-name>INIT_PARAM</param-name>
+  	<param-value>web.xml에 저장한 초기화 매개변수</param-value>
+  </context-param>
+  
 </web-app>
