@@ -12,9 +12,7 @@
 
 	Map<String, Object> param = new HashMap<String, Object>(); //검색 기능에서 사용할 겁색 키워드와 값
 	String searchField = request.getParameter("searchField"); //쿼리스트링으로 넘어간 값은 requset영역에 저장
-	System.out.print(searchField);
 	String searchWord = request.getParameter("searchWord"); 
-	System.out.print(searchWord);
 	
 	
 	if(searchWord != null){ //검색 form은 searchword가 있을 때 동작
@@ -100,7 +98,7 @@
 	
 	<table border="1" width=90%">
 		<tr align="right">
-			<td><button type="button" onclick="location.href="Write.jsp";>글쓰기</button>
+			<td><button type="button" onclick="location.href='Write.jsp';">글쓰기</button>
 			</td>
 		</tr>
 	</table>

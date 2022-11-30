@@ -15,11 +15,8 @@ public class BoardDAO extends JDBConnect {
 		super(application);
 	}
 	
-	
-	
 	public int selectCount(Map<String, Object> map) { //전체 게시물 수 카운트
 		
-		System.out.print(map);
 		int totalCount = 0;
 		String query = "SELECT COUNT(*) FROM board";
 		//seachword가 있다는 것은 검색하기 버튼을 눌렀다는 것
@@ -27,7 +24,6 @@ public class BoardDAO extends JDBConnect {
 			query += " WHERE " + map.get("searchField")+" "  //where절 항상 공백을 붙혀야 한다.
 			//검색 조건이 내용/제목 동적으로 받아와야돼
 				+ "LIKE '%" + map.get("searchWord") + "%'";
-			System.out.print(query);
 		}
 		
 		try {
@@ -78,5 +74,72 @@ public class BoardDAO extends JDBConnect {
 		
 		return bbs;
 	
+	}
+	
+	
+	public int insertWrite(BoardDTO dto) {
+		int result = 0;
+		String query = "insert into board (num,title,content,id,visitcount)"
+				+ " values(seq_board_num.nextval,?,?,?,0)";
+		try {
+			psmt= con.prepareStatement(query);
+			psmt.setString(1,dto.getTitle());
+			psmt.setString(2,dto.getContent());
+			psmt.setString(3, dto.getId());
+			
+			result = psmt.executeUpdate(); //추가 성공한 행의 개수 반환
+			System.out.print(result);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	
+	public void updateVisitCount(String num) {
+		String query="update board set"
+				+ " visitcount = visitcount + 1"
+				+ " where num = ?";
+		
+		try {
+			psmt= con.prepareStatement(query);
+			psmt.setString(1,num);
+			psmt.executeUpdate();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
+	public BoardDTO selectView(String num) {
+		String query = "select b.*, m.name" //이름 조회
+				+ " from member m inner join board b"
+				+ " on m.id = b.id"
+				+ " where num = ?";
+		
+		BoardDTO dto = new BoardDTO();
+		
+		
+		try {
+			psmt= con.prepareStatement(query);
+			psmt.setString(1,num);
+			
+			rs = psmt.executeQuery();
+
+			if(rs.next()) {
+				dto.setNum(rs.getString(1));
+				dto.setTitle(rs.getString(2));
+				dto.setContent(rs.getString("content"));
+				dto.setPostdate(rs.getDate("postdate"));
+				dto.setId(rs.getString("id"));
+				dto.setVisitcount(rs.getString(6));
+				dto.setName(rs.getString("name"));
+			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return dto;
 	}
 }
