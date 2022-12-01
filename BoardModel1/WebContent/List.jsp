@@ -32,7 +32,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<jsp:include page="./common/Link.jsp"></jsp:include>
+	<jsp:include page="./common/Link.jsp" ></jsp:include>
 	<h2>목록보기(List)</h2>
 	
 	<form method="get">

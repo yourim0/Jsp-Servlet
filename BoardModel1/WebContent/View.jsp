@@ -4,7 +4,7 @@
 <%@ page import="model1.board.BoardDAO" %>
 <%
 String num = request.getParameter("num");
-
+System.out.print(num);
 BoardDAO dao = new BoardDAO(application);
 
 //조회수 증가
@@ -22,7 +22,14 @@ dao.close();
 <title>회원제 게시판</title>
 <script>
 function deletePost(){
-	
+	//0. form태그를 객체로 가지고 온다
+	let form = document.writeFrm; //form 태그를 스크립트에서 사용가능하다
+	//1. 전송방식
+	form.method = "post"; //<form name="wirteFrm" method="post" action="">와 동일
+	//2. 이동할 페이지 
+	form.action = "DeleteProcess.jsp"
+	//3. submit기능 실행 //클릭하면 hidden의 정보가 넘어간다
+	form.submit();
 }
 
 </script>

@@ -113,6 +113,7 @@ public class BoardDAO extends JDBConnect {
 	
 	
 	public BoardDTO selectView(String num) {
+		System.out.print("num:" + num);
 		String query = "select b.*, m.name" //이름 조회
 				+ " from member m inner join board b"
 				+ " on m.id = b.id"
@@ -141,5 +142,57 @@ public class BoardDAO extends JDBConnect {
 			e.printStackTrace();
 		}
 		return dto;
+	}
+	
+	
+	//update
+	public int updateEdit(BoardDTO dto) {
+		//System.out.print("dto: : "+dto.getContent());
+		int result = 0;
+		try {
+			
+			String query = "UPDATE board SET "
+					+ " title=?, content=? "
+					+ " WHERE num=?";
+			
+			psmt = con.prepareStatement(query);
+			
+			psmt.setString(1, dto.getTitle());
+			psmt.setString(2, dto.getContent());
+			psmt.setString(3, dto.getNum());
+			
+			result = psmt.executeUpdate();
+			//result=psmt.executeUpdate(); //쿼리 성공시 1, 실패시 0
+			
+			//System.out.print(query);
+			//System.out.print(result);
+		}
+		catch(Exception e) {
+			System.out.print("게시물 수정 중 예외발생");
+			e.printStackTrace();
+		}
+
+		return result;
+		
+	}
+	
+
+	
+	
+	public int deletePost(BoardDTO dto) {
+	
+		int result = 0;
+		String query = "delete from board where num = ?";
+		try {
+			psmt = con.prepareStatement(query);
+			psmt.setString(1, dto.getNum());
+			result = psmt.executeUpdate();
+			//System.out.print(result);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		
+		return result;
 	}
 }
