@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ page import="model1.board.BoardDAO" %>
 <%@ page import="model1.board.BoardDTO" %>
+<%@ page import="utils.BoardPage" %>
 <%@ page import ="java.util.HashMap" %>
 <%@ page import ="java.util.Map" %>
 <%@ page import ="java.util.List" %>
@@ -21,13 +22,14 @@
 	}
 	
 	
-	int totalCount = dao.selectCount(param);
+	int totalCount = dao.selectCount(param);//전체 게시물 수 
 	//전체 페이지수 계산
-	int pageSize = Integer.parseInt(application.getInitParameter("POSTS_PER_PAGE"));
-	int blockPage = Integer.parseInt(application.getInitParameter("PAGES_PER_BLOCK"));
+	int pageSize = Integer.parseInt(application.getInitParameter("POSTS_PER_PAGE")); //페이지당 게시물 수 //5 
+	int blockPage = Integer.parseInt(application.getInitParameter("PAGES_PER_BLOCK")); //블록당 페이지 수 //10
 	int totalPage = (int)Math.ceil((double)totalCount / pageSize);
 	
 	//현재페이지 확인
+	//자기가 보낸 pageNum 파라미터를 자기가 받는다.
 	int pageNum = 1;
 	String pageTemp = request.getParameter("pageNum");
 	if(pageTemp != null && !pageTemp.equals("")){
@@ -120,7 +122,11 @@
 	</table>
 	
 	<table border="1" width=90%">
-		<tr align="right">
+		<tr align="center">
+			<td>
+				<%=BoardPage.pagingStr(totalCount,pageSize,blockPage, pageNum, request.getRequestURI()) %>
+				<%--request.getRequestURI()):클릭시 생성되는 uri --%>
+			</td>
 			<td><button type="button" onclick="location.href='Write.jsp';">글쓰기</button>
 			</td>
 		</tr>

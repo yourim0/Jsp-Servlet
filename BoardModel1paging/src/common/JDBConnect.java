@@ -25,7 +25,7 @@ public class JDBConnect {
 	}
 	
 	
-	 //생성자 오버로딩 1. 
+	 //생성자 오버로딩 1. web.xml의 값을 읽어옴
 	public JDBConnect(String driver, String url, String id, String pwd) {
 		try{
 			Class.forName(driver);
