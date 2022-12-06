@@ -12,8 +12,8 @@ public class DBConnPool {
 	public DBConnPool() {
 	
 		try {
-			Context initCtx= new InitialContext();
-			Context ctx = (Context)initCtx.lookup("java:com/env");
+			Context initCtx= new InitialContext(); //context =JNDI에서 이름과 실제 객체를 연결해주는 개념
+			Context ctx = (Context)initCtx.lookup("java:comp/env");
 			DataSource source = (DataSource)ctx.lookup("dbcp_myoracle"); //네임속성 준 부분
 			
 			con=source.getConnection(); //db연결
