@@ -15,14 +15,16 @@
 	
 	try{
 	//1. 객체생성 (생성과 동시에 파일 업로드)
-	MultipartRequest mr = new MultipartRequest(request, saveDirectory, maxPostSize, encoding); //매개변수는 정해져 있다
+	MultipartRequest mr = new MultipartRequest(request, saveDirectory, maxPostSize, encoding); //넘어오는 파라미터를 받기 위해서 requset 내장객체를 전달 
 
-	String fileName = mr.getFilesystemName("attachedFile");//넘어오는 파일 이름 받음 //request객체로 받는게 아니라 multipartrequest가 제공하는 메소드 사용해야돼
+	String fileName = mr.getFilesystemName("attachedFile");//넘어오는 파일 이름 받음 //(request객체)로 받는게 아님 multipartrequest가 제공하는 메소드 사용해야돼
 	String ext = fileName.substring(fileName.lastIndexOf(".")); //확장자 추출(. 기준으로 파일명, 확장자 분리)
+	//새로운 파일명 생성
 	String now = new SimpleDateFormat("yyyMMdd_HmsS").format(new Date());
 	String newFileName = now + ext; //겹칠일 없이 now로 생성
 
-	File oldFile = new File(saveDirectory + File.separator + fileName);
+	//파일명 변경
+	File oldFile = new File(saveDirectory + File.separator + fileName);//file.separator:경로를 구분하는 특수기호
 	File newFile = new File(saveDirectory + File.separator + newFileName);
 	oldFile.renameTo(newFile);
 
@@ -32,7 +34,7 @@
 	String title = mr.getParameter("title");
 	String[] cateArray = mr.getParameterValues("cate");
 	//카테고리를 하나의 문자열로 만들기 위해ㅐ?
-	StringBuffer cateBuf = new StringBuffer();
+	StringBuffer cateBuf = new StringBuffer(); //StringBuffer는 문자열을 추가하거나 변경 할 때 주로 사용하는 자료형
 	
 	if(cateArray == null){
 		cateBuf.append("선택없음");
@@ -55,12 +57,17 @@
 	dao.insertFile(dto);
 	dao.close();
 	
-	//처리한 정보 필요없으니까 redirect 
+	//처리한 정보 필요없으니까 redirect 처리 
 	
 	response.sendRedirect("FileList.jsp");
 
 	}catch(Exception e){
 		e.printStackTrace();
+		request.setAttribute("errorMessage","파일 업로드 오류"); 
+		//에러메시지 뿌려주어야 하니까 forward 방식사용
+		RequestDispatcher fw = request.getRequestDispatcher("FileUploadMain.jsp");
+		fw.forward(request,response); //request의 제어권이 넘어가기 때문에 에러메세지를 뿌릴 수 있따
+		
 	}
 
 

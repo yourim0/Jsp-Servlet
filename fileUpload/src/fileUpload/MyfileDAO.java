@@ -1,5 +1,8 @@
 package fileUpload;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import common.DBConnPool;
 
 public class MyfileDAO extends DBConnPool {
@@ -8,7 +11,7 @@ public class MyfileDAO extends DBConnPool {
 	public int insertFile(MyfileDTO dto) {
 		int applyResult=0;
 		try {
-			String query ="INSERT INTO myfile("
+			String query =" INSERT INTO myfile("
 						+ " idx, name, title, cate, ofile, sfile)"
 						+ " VALUES ("
 						+ " seq_board_num.nextval,?,?,?,?,?)";
@@ -26,5 +29,35 @@ public class MyfileDAO extends DBConnPool {
 			e.printStackTrace();
 		}
 		return applyResult;
+	}
+	
+	
+	
+	public List<MyfileDTO> myFileList(){
+		List<MyfileDTO> fileList = new ArrayList<MyfileDTO>();
+		String query = "select * from myfile order by idx desc";
+		try {
+			psmt = con.prepareStatement(query);
+			rs = psmt.executeQuery();
+			
+			while(rs.next()) {
+				MyfileDTO dto = new MyfileDTO();
+				
+				dto.setIdx(rs.getString(1));
+				dto.setName(rs.getString(2));
+				dto.setTitle(rs.getString(3));
+				dto.setCate(rs.getString(4));
+				dto.setOfile(rs.getString(5));
+				dto.setSfile(rs.getString(6));
+				dto.setPostdate(rs.getString(7));
+				
+				fileList.add(dto);
+			}
+			
+		}catch(Exception e) {
+			System.out.print("select 중 예외발생");
+			e.printStackTrace();
+		}
+		return fileList;
 	}
 }

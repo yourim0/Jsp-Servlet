@@ -1,4 +1,5 @@
 package common;
+
 import java.sql.*;
 
 import javax.naming.Context;
@@ -7,32 +8,30 @@ import javax.sql.DataSource;
 
 public class DBConnPool {
 	public Connection con;
-	public Statement stmt;
-	public PreparedStatement psmt;
-	public ResultSet rs;
-	
-	
-	//생성자
+    public Statement stmt;
+    public PreparedStatement psmt;
+    public ResultSet rs;
+
 	public DBConnPool() {
-	
 		try {
-			Context initCtx= new InitialContext(); //context =JNDI에서 이름과 실제 객체를 연결해주는 개념
-			Context ctx = (Context)initCtx.lookup("java:com/env");
-			DataSource source = (DataSource)ctx.lookup("dbcp_myoracle"); //네임속성 준 부분
+			Context initCtx = new InitialContext();
+			Context ctx = (Context)initCtx.lookup("java:comp/env"); //기본값
+			DataSource source = (DataSource)ctx.lookup("dbcp_myoracle");
 			
-			con=source.getConnection(); //db연결
+			con = source.getConnection();
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
 	public void close() {
-		try{
-			if(rs != null) rs.close();
-			if(stmt != null) stmt.close();
-			if(psmt != null) psmt.close();
-			if(con != null)	con.close();
-		
+		try {
+			if (rs != null) rs.close();
+            if (stmt != null) stmt.close();
+            if (psmt != null) psmt.close();
+			if(con != null) {
+				con.close();
+			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}
