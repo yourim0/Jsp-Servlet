@@ -13,7 +13,7 @@ public class DBConnPool {
 	
 		try {
 			Context initCtx= new InitialContext();
-			Context ctx = (Context)initCtx.lookup("java:com/env");
+			Context ctx = (Context)initCtx.lookup("java:comp/env");
 			DataSource source = (DataSource)ctx.lookup("dbcp_myoracle"); //네임속성 준 부분
 			
 			con=source.getConnection(); //db연결
