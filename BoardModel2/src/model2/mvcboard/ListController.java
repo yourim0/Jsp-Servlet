@@ -39,7 +39,7 @@ public class ListController extends HttpServlet {
 		int totalCount = dao.selectCount(map);
 	
 		
-		//페이징
+		//------------------------------------페이징--------------------------------------
 		ServletContext application = getServletContext();
 		int pageSize = Integer.parseInt(application.getInitParameter("POSTS_PER_PAGE"));
 		int blockPage = Integer.parseInt(application.getInitParameter("PAGES_PER_BLOCK"));
