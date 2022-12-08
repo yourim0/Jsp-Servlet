@@ -51,11 +51,11 @@
 					<c:forEach items="${boardLists }" var = "row" varStatus="loop">
 						<tr>
 							<td>${ map.totalCount - (((map.pageNum-1) * map.pageSize) + loop.index)} </td>
-							<td>${row.title }</td>
+							<td><a href="view.do?idx=${row.idx }">${row.title }</a></td>
 							<td>${row.name }</td>
 							<td>${row.visitcount }</td>
 							<td>${row.postdate }</td>
-							<td>[DOWNLOAD]</td>
+							<td><a href="download.do">[DOWNLOAD]</a></td>
 						</tr>
 					</c:forEach>
 			</c:otherwise>		
@@ -65,7 +65,9 @@
 	<table border="1" width="90%">
 		<tr align="center">
 			<td>${map.pagingImg }</td>
-			<td width="100"><button type="button">글쓰기</button></td>
+			<td width="100">
+			<button type="button" onclick="location.href='write.do'">글쓰기</button>
+			</td>
 		</tr>
 	</table>
 	
