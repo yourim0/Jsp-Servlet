@@ -46,7 +46,6 @@ public class FileUtil {
 			//out.clear();
 			OutputStream outStream = resp.getOutputStream();
 			
-			
 		
 		}catch(FileNotFoundException e){
 			System.out.println("파일을 찾을 수 없습니다.");
@@ -58,4 +57,16 @@ public class FileUtil {
 		}
 		
 	}
+	
+	
+//------------------------------파일 삭제----------------------------
+	
+	public static void deleteFile(HttpServletRequest req, String directory, String filename) {
+		String sDirectory = req.getServletContext().getRealPath(directory);//파일이 저장된 물리적 경로
+		File file = new File(sDirectory + File.separator + filename); //파일 객체 생성
+		if(file.exists()) {
+			file.delete();
+		}
+	}
+	
 }

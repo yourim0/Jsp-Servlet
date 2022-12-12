@@ -5,12 +5,10 @@ public class BoardPage {
 	//totalcount, pagesize : list.jsp에서 받아옴 
 	public static String pagingStr(int totalCount, int pageSize, int blockPage, int pageNum, String reqUrl) {
 		String pagingStr="";
-		System.out.print("pagenum:" + pageNum);
 		//전체 페이지수 출력
 		int totalPages = (int)(Math.ceil(((double)totalCount/pageSize)));
 		//페이지블록의 첫번째 시작값(ex. 1, 6, 11..)
-		int pageTemp = (((pageNum -1)/blockPage)*blockPage) + 1; 
-		System.out.print("pageTemp!!!!!!!!!!!!!!!" + pageTemp);
+		int pageTemp = (((pageNum -1)/blockPage)*blockPage) + 1; //1,6,11 등등
 	
 		//pageTemp가 1이 아닐때만(첫번재 블록에서는 안보임) 화면출력 (이전블록) 
 		if(pageTemp != 1) {
@@ -25,7 +23,7 @@ public class BoardPage {
 		int blockCount = 1;
 		while(blockCount <= blockPage && pageTemp <= totalPages) {
 			if(pageTemp == pageNum) {
-				pagingStr += "&nbsp;" + pageTemp +"&nbsp;";
+				pagingStr += "&nbsp;" + pageTemp +"&nbsp;"; //해당 페이지일 땐 링크 없애기
 			}else {
 				pagingStr += "&nbsp;<a href='" + reqUrl + "?pageNum=" + pageTemp 
 						+ "'>" + pageTemp + "</a>&nbsp;";

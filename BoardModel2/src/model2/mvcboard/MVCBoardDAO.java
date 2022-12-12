@@ -1,5 +1,6 @@
 package model2.mvcboard;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -177,7 +178,7 @@ public class MVCBoardDAO extends DBConnPool{
 	}
 	
 
-	//----------------------------------downCountPlus(다운로듯 수 증가)-------------------------------------	
+//----------------------------------downCountPlus(다운로듯 수 증가)-------------------------------------	
 	
 	
 	public void downCountPlus(int idx) {
@@ -200,4 +201,77 @@ public class MVCBoardDAO extends DBConnPool{
 		
 		
 	}
+	
+//----------------------------------confirmPassword(비밀번호 확인)-------------------------------------	
+	 
+	public boolean confirmPassword(String pass, String idx) {
+		 
+		 boolean isCorr=true;
+		 String query = "select count(*) from mvcboard where pass=? and idx=?";
+		 try {
+			 psmt = con.prepareStatement(query);
+			 psmt.setString(1, pass);
+			 psmt.setString(2,  idx);
+			 rs = psmt.executeQuery();
+			 rs.next();
+			 if(rs.getInt(1) == 0) { //일치하는 게시물 없다(0이면) false 반환
+				 isCorr = false;
+			 }
+			 
+		 }catch(SQLException e) { 
+			 isCorr = false; //예외발생해도 false 반환
+			 e.printStackTrace();
+		 }
+		 return isCorr;
+	 }
+	
+	 
+//----------------------------------deletePost(게시물 삭제)-------------------------------------	
+
+	public int deletePost(String idx) {
+		int result = 0;
+		
+		String query = "delete from mvcboard where idx=?";
+		try {
+			psmt = con.prepareStatement(query);
+			psmt.setString(1, idx);
+			result = psmt.executeUpdate();
+		}catch(SQLException e) {
+			System.out.println("게시물 삭제 중 예외 발생");
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+
+//----------------------------------updatePost(게시물 수정)-------------------------------------
+
+
+
+	public int updatePost(MVCBoardDTO dto) {
+		int result = 0;
+		try {
+			String query ="update mvcboard"
+					+" set title = ?, name = ?, content= ?, ofile= ?, sfile= ? "
+					+" where idx = ? and pass =?";
+			
+			psmt = con.prepareStatement(query);
+			psmt.setString(1, dto.getTitle());
+			psmt.setString(2, dto.getName());
+			psmt.setString(3, dto.getContent());
+			psmt.setString(4, dto.getOfile());
+			psmt.setString(5, dto.getSfile());
+			psmt.setString(6, dto.getIdx());
+			psmt.setString(7, dto.getPass());
+
+			result = psmt.executeUpdate();
+			
+			
+		}catch(Exception e) {
+			System.out.println("게시물 수정 중 예외 발생");
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
 }

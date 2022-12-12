@@ -53,9 +53,9 @@
 	<!-- 하단 메뉴(버튼) -->
 	<tr>
 		<td colspan="4" align="center">
-			<button type="button" onclick="">
+			<button type="button" onclick="location.href='pass.do?mode=edit&idx=${ param.idx}';">
 			수정하기</button>
-			<button type="button" onclick="">
+			<button type="button" onclick="location.href='pass.do?mode=delete&idx=${ param.idx}';">
 			삭제하기</button>
 			<button type="button" onclick="location.href='list.do';">
 			목록 바로가기</button>

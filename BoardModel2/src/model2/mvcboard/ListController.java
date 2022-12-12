@@ -55,7 +55,7 @@ public class ListController extends HttpServlet {
 		map.put("start", start);
 		map.put("end", end);
 	
-		List<MVCBoardDTO> boardLists = dao.selectListPage(map);
+		List<MVCBoardDTO> boardLists = dao.selectListPage(map); //리스트 열 개
 		dao.close();
 		
 		String pagingImg = BoardPage.pagingStr(totalCount, pageSize, blockPage, pageNum, "./list.do");

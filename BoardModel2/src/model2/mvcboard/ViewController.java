@@ -25,7 +25,7 @@ public class ViewController extends HttpServlet {
 		MVCBoardDTO dto = dao.selectView(idx); //넘어오는 하나의 idx에 대한 값 
 		dao.close();
 		
-		dto.setContent(dto.getContent().replace("\r\n","<br/>"));
+		dto.setContent(dto.getContent().replaceAll("\r\n", "<br/>"));
 	
 		request.setAttribute("dto", dto);
 		request.getRequestDispatcher("./View.jsp").forward(request, response);
