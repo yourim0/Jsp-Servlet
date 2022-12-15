@@ -10,6 +10,7 @@
 	     		Fax +82 64 123 4321
 			</div>
 		</footer>
+	</div>
 </body>
 </html>
 
